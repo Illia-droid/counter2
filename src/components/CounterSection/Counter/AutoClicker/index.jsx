@@ -8,9 +8,25 @@ class AutoClicker extends Component {
     this.state = {
       timerStopWatch: 0,
       leftWorkAutocliker: 30,
+      speedAutoClicker: 3,
     };
     this.autoClickerInterval = null;
   }
+  handleChangeSpeed = ({ target: { value } }) => {
+    const NumberSpeed = Number(value);
+    this.setState({
+      speedAutoClicker: NumberSpeed,
+    });
+  };
+
+  handleBlur = ({ target: { value } }) => {
+    if (value === "") {
+      this.setState({
+        speedAutoClicker: 1,
+      });
+    }
+  };
+
   changeTimerIndicators = () => {
     this.setState((state) => ({
       timerStopWatch: state.timerStopWatch + 1,
@@ -20,6 +36,7 @@ class AutoClicker extends Component {
 
   autoClicker = () => {
     const { handleSwitchIsAutoClicking } = this.props;
+    const { speedAutoClicker } = this.state;
     if (this.autoClickerInterval === null) {
       this.setState({
         leftWorkAutocliker: 30,
@@ -37,7 +54,7 @@ class AutoClicker extends Component {
           this.autoClickerInterval = null;
           handleSwitchIsAutoClicking();
         }
-      }, 1000);
+      }, 1000 / speedAutoClicker);
     }
   };
 
@@ -48,7 +65,7 @@ class AutoClicker extends Component {
     this.autoClicker();
   }
   render() {
-    const { timerStopWatch, leftWorkAutocliker } = this.state;
+    const { timerStopWatch, leftWorkAutocliker, speedAutoClicker } = this.state;
     const { isAutoClicking } = this.props;
     return (
       <section className={styles.container}>
@@ -63,6 +80,16 @@ class AutoClicker extends Component {
         >
           AutoClick
         </button>
+        <input
+          className={styles.input}
+          type="range"
+          min="1"
+          max="100"
+          value={speedAutoClicker}
+          onChange={this.handleChangeSpeed}
+          disabled={isAutoClicking}
+        />
+        <h2>X:{speedAutoClicker}</h2>
       </section>
     );
   }
