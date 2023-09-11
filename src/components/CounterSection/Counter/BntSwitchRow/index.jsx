@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styles from "./BntSwitchRow.module.css";
 
 class BntSwitchRow extends Component {
@@ -11,5 +12,10 @@ class BntSwitchRow extends Component {
     );
   }
 }
-
+BntSwitchRow.propTypes = {
+  handleSwitchRow: PropTypes.func.isRequired,
+};
+BntSwitchRow.defaultProps = {
+  handleSwitchRow: () => {},
+};
 export default BntSwitchRow;

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styles from "./AutoClicker.module.css";
+
 class AutoClicker extends Component {
   constructor(props) {
     super(props);
@@ -66,4 +68,10 @@ class AutoClicker extends Component {
   }
 }
 
+AutoClicker.propTypes = {
+  isAutoClicking: PropTypes.bool.isRequired,
+};
+AutoClicker.defaultProps = {
+  isAutoClicking: false,
+};
 export default AutoClicker;
