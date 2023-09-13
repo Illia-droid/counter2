@@ -9,9 +9,17 @@ class AutoClicker extends Component {
       timerStopWatch: 0,
       leftWorkAutocliker: 30,
       speedAutoClicker: 3,
+      isAutoClicking: false,
     };
     this.autoClickerInterval = null;
   }
+
+  handleSwitchIsAutoClicking = () => {
+    this.setState((prevState) => ({
+      isAutoClicking: !prevState.isAutoClicking,
+    }));
+  };
+
   handleChangeSpeed = ({ target: { value } }) => {
     const NumberSpeed = Number(value);
     this.setState({
@@ -35,16 +43,16 @@ class AutoClicker extends Component {
   };
 
   autoClicker = () => {
-    const { handleSwitchIsAutoClicking } = this.props;
     const { speedAutoClicker } = this.state;
     if (this.autoClickerInterval === null) {
       this.setState({
         leftWorkAutocliker: 30,
       });
-      handleSwitchIsAutoClicking();
+      this.handleSwitchIsAutoClicking();
 
       this.autoClickerInterval = setInterval(() => {
         const { leftWorkAutocliker } = this.state;
+
         const { handlerClick } = this.props;
         handlerClick();
         this.changeTimerIndicators();
@@ -52,7 +60,7 @@ class AutoClicker extends Component {
         if (leftWorkAutocliker === 1) {
           clearInterval(this.autoClickerInterval);
           this.autoClickerInterval = null;
-          handleSwitchIsAutoClicking();
+          this.handleSwitchIsAutoClicking();
         }
       }, 1000 / speedAutoClicker);
     }
@@ -61,12 +69,16 @@ class AutoClicker extends Component {
   componentDidMount() {
     this.autoClicker();
   }
-  componentWillUnmount() {
-    this.autoClicker();
-  }
+  // componentWillUnmount() {
+  //   clearInterval(this.autoClickerInterval)  
+  // }
   render() {
-    const { timerStopWatch, leftWorkAutocliker, speedAutoClicker } = this.state;
-    const { isAutoClicking } = this.props;
+    const {
+      timerStopWatch,
+      leftWorkAutocliker,
+      speedAutoClicker,
+      isAutoClicking,
+    } = this.state;
     return (
       <section className={styles.container}>
         <h2 className={styles.timer}>timerStopWatch: {timerStopWatch}</h2>
